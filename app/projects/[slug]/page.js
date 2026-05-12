@@ -2,6 +2,53 @@ import { client } from '../../../lib/sanity'
 import Image from 'next/image'
 import VideoPlayer from '../../../components/VideoPlayer'
 import ComparisonSlider from '../../../components/ComparisonSlider'
+import { PortableText } from '@portabletext/react'
+
+const portableComponents = {
+  block: {
+    normal: ({children}) => (
+      <p style={{ marginBottom: '1.2em' }}>{children}</p>
+    ),
+    small: ({children}) => (
+      <p style={{ fontSize: '14px', marginBottom: '1.2em' }}>{children}</p>
+    ),
+    large: ({children}) => (
+      <p style={{ fontSize: '24px', marginBottom: '1.2em' }}>{children}</p>
+    ),
+    h3: ({children}) => (
+      <h3 style={{
+        fontSize: '22px',
+        fontWeight: 700,
+        color: 'var(--dark-gray)',
+        marginBottom: '0.6em',
+        marginTop: '1.4em',
+      }}>
+        {children}
+      </h3>
+    ),
+  },
+  marks: {
+    strong: ({children}) => (
+      <strong style={{ fontWeight: 700, color: 'var(--dark-gray)' }}>{children}</strong>
+    ),
+    em: ({children}) => (
+      <em style={{ fontStyle: 'italic' }}>{children}</em>
+    ),
+    underline: ({children}) => (
+      <span style={{ textDecoration: 'underline' }}>{children}</span>
+    ),
+    highlight: ({children, value}) => (
+      <mark style={{ 
+        background: '#EF6924',
+        color: '#ffffff',
+        padding: '0 3px',
+        borderRadius: '2px',
+      }}>
+        {children}
+      </mark>
+    ),
+  }
+}
 
 export default async function ProjectPage({ params }) {
   const { slug } = await params
@@ -60,6 +107,11 @@ export default async function ProjectPage({ params }) {
             priority
           />
         )}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)',
+        }} />
         <div style={{
           position: 'relative',
           zIndex: 2,
@@ -233,14 +285,17 @@ export default async function ProjectPage({ params }) {
           margin: '0 auto',
           padding: '80px 72px',
         }}>
-          <p style={{
+          <div style={{
             fontSize: '18px',
             fontWeight: 300,
             lineHeight: 1.85,
             color: 'var(--mid-gray)',
           }}>
-            {project.descriptionOne}
-          </p>
+            <PortableText
+              value={project.descriptionOne}
+              components={portableComponents}
+            />
+          </div>
         </section>
       )}
 
@@ -265,14 +320,17 @@ export default async function ProjectPage({ params }) {
           margin: '0 auto',
           padding: '80px 72px',
         }}>
-          <p style={{
+          <div style={{
             fontSize: '18px',
             fontWeight: 300,
             lineHeight: 1.85,
             color: 'var(--mid-gray)',
           }}>
-            {project.descriptionTwo}
-          </p>
+            <PortableText
+              value={project.descriptionTwo}
+              components={portableComponents}
+            />
+          </div>
         </section>
       )}
 
@@ -298,14 +356,17 @@ export default async function ProjectPage({ params }) {
           margin: '0 auto',
           padding: '0 72px 80px',
         }}>
-          <p style={{
+          <div style={{
             fontSize: '18px',
             fontWeight: 300,
             lineHeight: 1.85,
             color: 'var(--mid-gray)',
           }}>
-            {project.descriptionThree}
-          </p>
+            <PortableText
+              value={project.descriptionThree}
+              components={portableComponents}
+            />
+          </div>
         </section>
       )}
 

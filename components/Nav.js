@@ -3,9 +3,19 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 export default function Nav() {
   const pathname = usePathname()
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    function handleScroll() {
+      setScrolled(window.scrollY > 300)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const links = [
     { href: '/who-we-are', label: 'Who We Are' },
@@ -25,16 +35,25 @@ export default function Nav() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '24px 48px',
-      background: 'transparent',
+      padding: '0 48px',
+      height: '100px',
+      background: scrolled
+        ? 'rgba(20,20,20,0.97)'
+        : 'transparent',
+      backdropFilter: scrolled ? 'blur(8px)' : 'none',
+      borderBottom: scrolled
+        ? '1px solid rgba(255,255,255,0.06)'
+        : 'none',
+      transition: 'background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
     }}>
+
       {/* Logo */}
-      <Link href="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+      <Link href="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0, paddingTop: '12px' }}>
         <Image
           src="/thg-logo.png"
           alt="THG Creative"
-          width={100}
-          height={65}
+          width={130}
+          height={84}
           style={{ objectFit: 'contain' }}
           priority
         />
@@ -63,7 +82,9 @@ export default function Nav() {
                 opacity: isActive ? 1 : 0.8,
                 transition: 'opacity 0.2s',
                 paddingBottom: '4px',
-                borderBottom: isActive ? '1px solid var(--orange)' : '1px solid transparent',
+                borderBottom: isActive
+                  ? '1px solid var(--orange)'
+                  : '1px solid transparent',
               }}>
                 {link.label}
               </Link>

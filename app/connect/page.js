@@ -15,7 +15,7 @@ export default async function ConnectPage() {
       {/* ── HERO ── */}
       <section style={{
         position: 'relative',
-        height: '60vh',
+        height: '80vh',
         minHeight: '400px',
         display: 'flex',
         alignItems: 'flex-end',
